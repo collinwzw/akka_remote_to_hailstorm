@@ -2,7 +2,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.util.Failure
 import scala.util.Success
-
+import main.scala.akka.com.remote.HailstormStorageManager
 import akka.actor.Actor
 import akka.actor.ActorRef
 import akka.actor.Props
@@ -21,7 +21,8 @@ class RemoteActor extends Actor {
   context.system.actorSelection("akka.tcp://HailstormFrontend@127.0.0.1:3553/user/roxxfs").resolveOne()(10.seconds).onComplete(x => x match {
     case Success(ref: ActorRef) => {
       println(f"Located HailstormFrontend actor: $ref")
-      ref ! "Please add a node"
+      ref ! "add,127.0.0.1,4999"
+      //ref ! HailstormStorageManager.AddNode("127.0.0.1", 5000)
     }
     case Failure(t) => {
       System.err.println(f"Failed to locate the actor. Reason: $t")
