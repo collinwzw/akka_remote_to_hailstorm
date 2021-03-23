@@ -21,7 +21,7 @@ class RemoteActor extends Actor {
   context.system.actorSelection("akka.tcp://HailstormFrontend@127.0.0.1:3553/user/roxxfs").resolveOne()(10.seconds).onComplete(x => x match {
     case Success(ref: ActorRef) => {
       println(f"Located HailstormFrontend actor: $ref")
-      ref ! "add,127.0.0.1,4999"
+      ref ! "add,127.0.0.1,2555"
       //ref ! HailstormStorageManager.AddNode("127.0.0.1", 5000)
     }
     case Failure(t) => {
